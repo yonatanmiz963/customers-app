@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAuthToken } from '../../utills/authUtill';
+import { getUserAuthToken } from '../../services/authService';
 
 const ProtectedRoute = ({ component: Component }) => {
     const navigate = useNavigate();
-    const [token, setToken] = useState(false);
+    const [token, setToken] = useState(null);
 
     useEffect(() => {
         const checkAuth = async () => {
-            const token = getAuthToken();
+            const token = getUserAuthToken();
             if (!token) {
                 navigate('/');
             }

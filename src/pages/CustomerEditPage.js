@@ -1,7 +1,7 @@
+import CustomerEditForm from "../components/CustomerEditForm/CustomerEditForm";
 
-function CustomerEditPage({ token }) {
-  console.log('token:', token)
-  return <div>CustomerEditPage</div>;
+function CustomerEditPage() {
+  return <div><CustomerEditForm /></div>;
 }
 
 export default CustomerEditPage;

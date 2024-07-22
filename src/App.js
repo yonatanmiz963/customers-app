@@ -2,7 +2,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import CustomerEditPage from "./pages/CustomerEditPage";
-import { checkAuthLoader } from "./utills/authUtill";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 const router = createBrowserRouter([

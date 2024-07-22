@@ -1,8 +1,22 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import classes from './CustomersContainer.module.css';
 import { DataGrid } from '@mui/x-data-grid';
+import { getCustomers } from '../../services/customersService';
 
-const CustomersContainer = ({ customers }) => {
+const CustomersContainer = () => {
+    const [customers, setCustomers] = useState(null)
+
+    useEffect(() => {
+        const getData = async () => {
+            const customers = await getCustomers();
+            console.log('customers:', customers)
+            setCustomers(customers)
+        }
+        getData();
+
+    }, []);
+
     return (
         <div className={classes.container}>
             <DataTable rows={customers} />
@@ -20,12 +34,12 @@ const columns = [
     },
     {
         field: 'firstName',
-        headerName: 'First name',
+        headerName: 'First Name',
         width: 150
     },
     {
         field: 'lastName',
-        headerName: 'Last name',
+        headerName: 'Last Name',
         width: 150
     },
     {
@@ -40,11 +54,17 @@ const columns = [
         type: 'string',
         width: 150,
     },
+    {
+        field: 'bankAccount',
+        headerName: 'Bank Account',
+        type: 'string',
+        width: 150,
+    },
 ];
 
 function DataTable({ rows }) {
     return (
-        <div style={{ height: 400, width: '100%' }}>
+        <div style={{ height: 700, width: '100%' }}>
             <DataGrid
                 rows={rows}
                 columns={columns}
@@ -55,7 +75,7 @@ function DataTable({ rows }) {
                 }}
                 pageSizeOptions={[5, 10]}
                 checkboxSelection={false}
-                
+
             />
         </div>
     );

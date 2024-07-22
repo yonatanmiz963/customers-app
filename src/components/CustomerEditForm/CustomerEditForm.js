@@ -1,50 +1,43 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import classes from './AuthForm.module.css';
-import { loginUser } from '../../services/authService';
+import { useNavigate, useParams } from 'react-router-dom';
+import classes from './CustomerEditForm.module.css';
 import { TextField } from '@mui/material';
+import { editCustomer } from '../../services/customersService';
 
-function AuthForm() {
+function CustomerEditForm() {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [formErrors, setFormErrors] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
-  const [isEmailValid, setIsEmailValid] = useState(true);
-  const [emailValue, setEmailValue] = useState('');
 
-
-  const validateEmail = (email) => {
-    setEmailValue(email); 
-    if (email === '') {
-      setIsEmailValid(true); 
-    } else {
-      const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
-      setIsEmailValid(regex.test(email));
-    }
-  };
-
-  async function handleLogin(event) {
+  async function handleSaveChanges(event) {
     event.preventDefault();
     setErrorMessage('');
     setFormErrors({});
 
     const formData = new FormData(event.target);
 
-    const AuthData = {
-      email: formData.get('email'),
+    const editCustomerData = {
+      id: parseInt(id),
       firstname: formData.get('firstname'),
       lastname: formData.get('lastname'),
-      password: formData.get('password'),
+      bankAccount: formData.get('bankAccount'),
     };
 
+    console.log('editCustomerData:', editCustomerData)
+
+
     try {
-      const loginResponse = await loginUser(AuthData);
-      console.log('loginResponse:', loginResponse);
+      const EditedCustomer = await editCustomer(editCustomerData);
+      console.log('EditedCustomer:', EditedCustomer);
       navigate('/HomePage');
 
     } catch (errorResponse) {
       console.log('errorResponse:', errorResponse)
       if (errorResponse.response.data.message) {
         setErrorMessage(errorResponse.response.data.message);
+      } else if (typeof errorResponse.response.data === 'string') {
+        setErrorMessage(errorResponse.response.data);
       } else {
         setFormErrors(errorResponse.response.data.errors);
       }
@@ -53,37 +46,19 @@ function AuthForm() {
 
   return (
     <>
-      <form method='post' className={classes.form} onSubmit={handleLogin}>
-        <h1>Log in</h1>
+      <form method='post' className={classes.form} onSubmit={handleSaveChanges}>
+        <h1>Edit Customer</h1>
         <div>
           <TextField
-            id="email"
-            label="Email"
-            type="email"
-            name="email"
-            required
-            variant="outlined"
-            onChange={(e) => validateEmail(e.target.value)}
-            error={emailValue !== '' && !isEmailValid}
-            fullWidth
-            margin="normal"
-          />
-          {formErrors.Em && formErrors.Em.map((error, index) => (
-            <p key={index} className={classes.error}>{error}</p>
-          ))}
-        </div>
-        <div>
-          <TextField
-            id="password"
-            label="Password"
-            type="password"
-            name="password"
-            required
+            id="bankAccount"
+            label="Bank Account"
+            type="bankAccount"
+            name="bankAccount"
             variant="outlined"
             fullWidth
             margin="normal"
           />
-          {formErrors.Password && formErrors.Password.map((error, index) => (
+          {formErrors.BankAccount && formErrors.BankAccount.map((error, index) => (
             <p key={index} className={classes.error}>{error}</p>
           ))}
         </div>
@@ -93,7 +68,6 @@ function AuthForm() {
             label="First Name"
             type="firstname"
             name="firstname"
-            required
             variant="outlined"
             fullWidth
             margin="normal"
@@ -108,7 +82,6 @@ function AuthForm() {
             label="Last Name"
             type="lastname"
             name="lastname"
-            required
             variant="outlined"
             fullWidth
             margin="normal"
@@ -119,7 +92,10 @@ function AuthForm() {
         </div>
         <div className={classes.actions}>
           <button type="submit">
-            Login
+            Save Changes
+          </button>
+          <button type="button" onClick={()=>navigate('/homepage')}>
+            Back
           </button>
         </div>
       </form>
@@ -132,4 +108,4 @@ function AuthForm() {
   );
 }
 
-export default AuthForm;
+export default CustomerEditForm;
