@@ -3,16 +3,20 @@ import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import CustomerEditPage from "./pages/CustomerEditPage";
 import { checkAuthLoader } from "./utills/authUtill";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
     path: '/', element: <LoginPage></LoginPage>,
   },
   {
-    path: '/HomePage', element: <HomePage></HomePage>, loader: checkAuthLoader,
+    path: '/HomePage', element: <ProtectedRoute component={HomePage} />,
   },
+  // {
+  //   path: '/HomePage', element: <HomePage></HomePage>, loader: checkAuthLoader,
+  // },
   {
-    path: '/CustomerEditPage/:id', element: <CustomerEditPage></CustomerEditPage>, loader: checkAuthLoader,
+    path: '/CustomerEditPage/:id', element: <ProtectedRoute component={CustomerEditPage}/>,
   }
 ])
 

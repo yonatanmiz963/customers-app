@@ -1,10 +1,6 @@
-import { useLoaderData } from "react-router-dom";
 
-function CustomerEditPage() {
-  const token = useLoaderData();
+function CustomerEditPage({ token }) {
   console.log('token:', token)
-
-
   return <div>CustomerEditPage</div>;
 }
 

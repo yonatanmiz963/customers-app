@@ -1,28 +1,34 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useLoaderData } from "react-router-dom";
+import CustomersContainer from "../components/CustomerContainer/CustomersContainer";
 
-function HomePage() {
-const token = useLoaderData()
-console.log('token:', token)
+function HomePage({ token }) {
+  const [customers, setCustomers] = useState(null)
 
   useEffect(() => {
     const getData = async () => {
       const customersResponse = await axios({
         method: 'get',
-        url: 'http://localhost:5140/api/Users/',
+        url: 'https://localhost:7052/api/Users/',
         headers: {
           Authorization: `Bearer ${token}`
         }
       })
       console.log('customersResponse:', customersResponse)
+      setCustomers(customersResponse.data)
     }
     getData();
 
-  }, []);
+  }, [token]);
 
 
-  return <div>HomePage</div>;
+  return <div>
+    {customers === null && <p>Loading...</p>}
+    {customers ?
+      <CustomersContainer customers={customers} />
+      : null
+    }
+  </div>;
 }
 
 export default HomePage;

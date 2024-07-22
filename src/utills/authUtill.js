@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { redirect } from 'react-router-dom';
 
-const API_URL = 'http://localhost:5140/api/Users/';
+const API_URL = 'https://localhost:7052/api/Users/';
 const TOKEN_KEY_NAME = 'userToken';
 
 // Function to save JWT token to sessionStorage
@@ -56,4 +56,4 @@ function checkAuthLoader() {
 }
 
 
-export { loginUser, logoutUser, checkAuthLoader };
+export { loginUser, logoutUser, checkAuthLoader, getAuthToken };
