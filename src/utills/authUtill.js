@@ -1,25 +1,22 @@
 
 import axios from 'axios';
+import { redirect } from 'react-router-dom';
 
-const API_URL = 'https://localhost:7052/api/Users/';
+const API_URL = 'http://localhost:5140/api/Users/';
+const TOKEN_KEY_NAME = 'userToken';
 
 // Function to save JWT token to sessionStorage
-const saveToken = (token) => {
-  sessionStorage.setItem('userToken', JSON.stringify(token));
-};
-
-// Function to get JWT token from sessionStorage
-const getToken = () => {
-  return JSON.parse(sessionStorage.getItem('userToken'));
+async function saveToken(token) {
+  sessionStorage.setItem(TOKEN_KEY_NAME, JSON.stringify(token));
 };
 
 // Function to remove JWT token from sessionStorage
-const removeToken = () => {
-  sessionStorage.removeItem('userToken');
+async function removeToken() {
+  sessionStorage.removeItem(TOKEN_KEY_NAME);
 };
 
 // Function to login user
-const loginUser = async (AuthData) => {
+async function loginUser(AuthData) {
   try {
     const response = await axios.post(`${API_URL}login`, AuthData);
     if (response.data) {
@@ -32,10 +29,31 @@ const loginUser = async (AuthData) => {
   }
 };
 
-
 // Function to logout user
 const logoutUser = () => {
   removeToken();
 };
 
-export { loginUser, logoutUser, getToken };
+function getAuthToken() {
+  const userToken = JSON.parse(sessionStorage.getItem(TOKEN_KEY_NAME));
+
+  if (!userToken) {
+    return null;
+  }
+
+  return userToken.token;
+}
+
+
+function checkAuthLoader() {
+  const token = getAuthToken();
+
+  if (!token) {
+    return redirect('/');
+  }
+
+  return token;
+}
+
+
+export { loginUser, logoutUser, checkAuthLoader };

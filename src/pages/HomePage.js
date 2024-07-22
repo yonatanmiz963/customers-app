@@ -1,18 +1,18 @@
 import { useEffect } from "react";
-import { getToken } from "../utills/authUtill";
 import axios from "axios";
+import { useLoaderData } from "react-router-dom";
 
 function HomePage() {
+const token = useLoaderData()
+console.log('token:', token)
+
   useEffect(() => {
     const getData = async () => {
-      const user = getToken();
-      console.log('user:', user)
-
       const customersResponse = await axios({
         method: 'get',
-        url: 'https://localhost:7052/api/Users',
+        url: 'http://localhost:5140/api/Users/',
         headers: {
-          Authorization: `Bearer ${user.token}`
+          Authorization: `Bearer ${token}`
         }
       })
       console.log('customersResponse:', customersResponse)

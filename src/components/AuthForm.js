@@ -1,12 +1,12 @@
-import { Form, redirect, useNavigate } from 'react-router-dom';
+import { Form, useNavigate } from 'react-router-dom';
 
 import classes from './AuthForm.module.css';
 import { loginUser } from '../utills/authUtill';
 
 function AuthForm() {
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  async function authAction() {
+  async function handleLogin() {
     const formData = new FormData();
     formData.append('email', document.getElementById('email').value);
     formData.append('firstname', document.getElementById('firstname').value);
@@ -22,7 +22,7 @@ const navigate = useNavigate();
 
     const loginResponse = await loginUser(AuthData);
     console.log('loginResponse:', loginResponse)
-    
+
     navigate('/HomePage');
   }
 
@@ -48,7 +48,7 @@ const navigate = useNavigate();
           <input defaultValue="admin" id="password" type="password" name="password" required />
         </p>
         <div className={classes.actions}>
-          <button onClick={authAction} type="button">
+          <button onClick={handleLogin} type="button">
             Login
           </button>
         </div>
