@@ -81,7 +81,9 @@ function getUserAuthToken() {
  */
 function hasDatePassed(expirationDateString) {
   const currentDate = new Date();
+  console.log('currentDate:', currentDate)
   const expirationDate = new Date(expirationDateString);
+  console.log('expirationDate:', expirationDate)
 
   return currentDate > expirationDate;
 }

@@ -91,12 +91,13 @@ function CustomerEditForm() {
           ))}
         </div>
         <div className={classes.actions}>
+        <button type="button" onClick={()=>navigate('/homepage')}>
+            Back
+          </button>
           <button type="submit">
             Save Changes
           </button>
-          <button type="button" onClick={()=>navigate('/homepage')}>
-            Back
-          </button>
+
         </div>
       </form>
       {errorMessage && (

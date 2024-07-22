@@ -6,16 +6,26 @@ import { getCustomers } from '../../services/customersService';
 
 const CustomersContainer = () => {
     const [customers, setCustomers] = useState(null)
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const getData = async () => {
-            const customers = await getCustomers();
-            console.log('customers:', customers)
-            setCustomers(customers)
-        }
+            try {
+                const customersData = await getCustomers();
+                console.log('customers:', customersData);
+                setCustomers(customersData);
+            } catch (err) {
+                console.error('Failed to fetch customers:', err);
+                setError('Failed to load customers. Please try again later.');
+            }
+        };
         getData();
 
     }, []);
+
+    if (error) {
+        return <div className={classes.error}>{error}</div>;
+    }
 
     return (
         <div className={classes.container}>
