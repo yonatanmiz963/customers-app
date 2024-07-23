@@ -11,9 +11,6 @@ const router = createBrowserRouter([
   {
     path: '/HomePage', element: <ProtectedRoute component={HomePage} />,
   },
-  // {
-  //   path: '/HomePage', element: <HomePage></HomePage>, loader: checkAuthLoader,
-  // },
   {
     path: '/CustomerEditPage/:id', element: <ProtectedRoute component={CustomerEditPage}/>,
   }
