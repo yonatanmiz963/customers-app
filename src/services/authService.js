@@ -1,7 +1,6 @@
 
-import { red } from '@mui/material/colors';
 import axios from 'axios';
-import { redirect, redirectDocument } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 
 const API_URL = 'https://localhost:7052/api/Users/';
 const TOKEN_KEY_NAME = 'userToken';
